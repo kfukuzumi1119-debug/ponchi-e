@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>高機能電卓｜sin・cos・tan・べき乗・log が使える無料の関数電卓（ブラウザで使える）</title>
+<meta name="description" content="sin・cos・tan と逆関数、x²・xʸ・√・log・ln・階乗・π を使える無料の関数電卓。度とラジアンを切り替えられ、式をそのまま打ち込んで計算できます。履歴とメモリ付き。テーパーや勾配、ピッチ円の座標など、機械加工・製造現場の計算にも。インストール不要。">
+<link rel="canonical" href="https://ponchie.hibitool.com/dentaku.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ポンチ絵工房">
+<meta property="og:title" content="高機能電卓｜sin・cos・tan・べき乗・log が使える無料の関数電卓（ブラウザで使える）">
+<meta property="og:description" content="sin・cos・tan と逆関数、x²・xʸ・√・log・ln・階乗・π を使える無料の関数電卓。度とラジアンを切り替えられ、式をそのまま打ち込んで計算できます。履歴とメモリ付き。テーパーや勾配、ピッチ円の座標など、機械加工・製造現場の計算にも。インストール不要。">
+<meta property="og:url" content="https://ponchie.hibitool.com/dentaku.html">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "WebApplication", "name": "高機能電卓", "url": "https://ponchie.hibitool.com/dentaku.html", "description": "sin・cos・tan と逆関数、x²・xʸ・√・log・ln・階乗・π を使える無料の関数電卓。度とラジアンを切り替えられ、式をそのまま打ち込んで計算できます。履歴とメモリ付き。テーパーや勾配、ピッチ円の座標など、機械加工・製造現場の計算にも。インストール不要。", "applicationCategory": "UtilitiesApplication", "operatingSystem": "All", "inLanguage": "ja", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "度（DEG）とラジアン（RAD）はどう切り替えますか？", "acceptedAnswer": {"@type": "Answer", "text": "表示の上にある「度（DEG）」「ラジアン（RAD）」のボタンで切り替えます。最初は度になっています。"}}, {"@type": "Question", "name": "sin⁻¹（アークサイン）などの逆関数はどう使いますか？", "acceptedAnswer": {"@type": "Answer", "text": "「2nd」を押すと sin・cos・tan のボタンが sin⁻¹・cos⁻¹・tan⁻¹ に切り替わります。式に asin(0.5) のように打ち込むこともできます。"}}, {"@type": "Question", "name": "計算の履歴は保存されますか？", "acceptedAnswer": {"@type": "Answer", "text": "画面を開いている間だけ右側に残ります。ページを閉じると消え、どこにも送られません。"}}, {"@type": "Question", "name": "キーボードで打てますか？", "acceptedAnswer": {"@type": "Answer", "text": "打てます。数字と + − * / ^ ( ) . を打ち、Enter で計算、Backspace で1文字、Esc で全部消します。"}}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>[hidden]{display:none!important}body{margin:0}</style>
+<style>
+:root {
+  --paper: #f4f6f3;
+  --sheet: #fbfcfa;
+  --ink: #1c2733;
+  --muted: #5b6875;
+  --rule: #d9dfd8;
+  --accent: #2a62a8;
+  --money: #2a7f4f;
+  --steel: #8a98a6;
+  --note: #a8740a;
+  --warn-bg: #fdf0e6;
+  --warn-fg: #9a3b12;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12171c; --sheet: #182027; --ink: #e5eaee; --muted: #9aa7b2;
+    --rule: #2c3741; --accent: #7eaef0; --money: #6cc994; --steel: #6b7885; --note: #e6b84a;
+    --warn-bg: #3a2418; --warn-fg: #f3b08a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12171c; --sheet: #182027; --ink: #e5eaee; --muted: #9aa7b2;
+  --rule: #2c3741; --accent: #7eaef0; --money: #6cc994; --steel: #6b7885; --note: #e6b84a;
+  --warn-bg: #3a2418; --warn-fg: #f3b08a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.7; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 16px 16px 32px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+header h1 { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: 0.02em; text-wrap: balance; }
+header p { margin: 2px 0 0; color: var(--muted); max-width: 80ch; font-size: 14px; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; display: grid; gap: 10px; min-width: 0; }
+.row { display: grid; gap: 4px; }
+.row label, .row .lbl { font-weight: 700; font-size: 14px; }
+.inline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+select, input[type="text"] {
+  font: 600 16px var(--font-num); color: var(--ink); background: var(--sheet);
+  border: 2px solid var(--rule); border-radius: 6px; padding: 4px 8px; min-width: 0;
+}
+select { font-family: var(--font-body); font-weight: 500; width: 100%; }
+input[type="text"] { width: 9em; text-align: right; }
+select:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.seg { display: inline-flex; justify-self: start; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; background: var(--sheet); color: var(--muted); font: 500 13px var(--font-body); padding: 4px 12px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); }
+.hint { font-size: 12px; color: var(--muted); }
+button.btn { font: 500 13px var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 999px; padding: 4px 14px; cursor: pointer; justify-self: start; }
+button.btn:hover { border-color: var(--muted); }
+h2 { margin: 0; font-size: 1.05rem; }
+.lead { margin: 0; color: var(--muted); font-size: 14px; max-width: 76ch; }
+
+/* 高機能電卓：左に表示とキー、右に履歴。重量ページの部品（.panel .seg など）を使う */
+.cx { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+@media (max-width: 860px) { .cx { grid-template-columns: 1fr; } }
+.cx-disp { display: grid; gap: 4px; background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; }
+.cx-disp input { width: 100%; font: 600 20px var(--font-num); text-align: right; border: 0; background: transparent; color: var(--ink); padding: 2px 0; }
+.cx-disp input:focus-visible { outline: none; }
+.cx-res { font: 600 2rem/1.2 var(--font-num); text-align: right; color: var(--money); overflow-wrap: anywhere; min-height: 1.2em; font-variant-numeric: tabular-nums; }
+.cx-res.err { color: var(--warn-fg); font-size: 1rem; }
+.cx-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.cx-keys { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.cx-keys button { font: 600 15px var(--font-num); color: var(--ink); background: var(--sheet); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 2px; cursor: pointer; min-width: 0; }
+.cx-keys button:hover { border-color: var(--muted); }
+.cx-keys button:active { transform: translateY(1px); }
+.cx-keys button.fn { background: var(--paper); font-size: 13px; }
+.cx-keys button.op { background: color-mix(in srgb, var(--accent) 12%, var(--sheet)); color: var(--accent); }
+.cx-keys button.eq { background: var(--accent); color: var(--sheet); border-color: var(--accent); }
+.cx-keys button.clr { color: var(--warn-fg); }
+.cx-keys button.on { background: var(--ink); color: var(--sheet); }
+.cx-hist { display: grid; gap: 4px; max-height: 420px; overflow: auto; }
+.cx-hist button { text-align: right; font: 400 13px var(--font-num); color: var(--muted); background: var(--paper); border: 1px solid transparent; border-radius: 6px; padding: 4px 8px; cursor: pointer; display: grid; overflow-wrap: anywhere; }
+.cx-hist button:hover { border-color: var(--rule); }
+.cx-hist button b { font-size: 15px; color: var(--ink); }
+.cx-help { font-size: 12.5px; color: var(--muted); display: grid; gap: 2px; }
+.cx-guide { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 18px; margin: 0; }
+.cx-guide div { display: grid; grid-template-columns: 4.2em minmax(0, 1fr); gap: 10px; align-items: baseline; font-size: 13.5px; padding: 4px 0; border-bottom: 1px solid var(--rule); }
+.cx-guide dt { font: 600 13px var(--font-num); text-align: center; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 3px 0; }
+.cx-guide dd { margin: 0; }
+.cx-guide dd code { font-family: var(--font-num); background: var(--paper); border-radius: 4px; padding: 0 4px; }
+.cx-help code { font-family: var(--font-num); background: var(--paper); border-radius: 4px; padding: 0 4px; }
+
+
+.tnav { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: center; max-width: 1120px; margin: 0 auto; padding: 12px 16px 0; font: 700 13px var(--font-body); }
+.tnav a { color: var(--muted); text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent; }
+.tnav a:hover { color: var(--ink); }
+.tnav a[aria-current] { color: var(--ink); border-bottom-color: var(--ink); }
+.tnav .home { color: var(--ink); margin-right: 6px; }
+.seo { max-width: 1120px; margin: 0 auto; padding: 8px 16px 48px; color: var(--ink); }
+.seo h2 { font-size: 1.1rem; margin: 26px 0 6px; text-wrap: balance; }
+.seo p, .seo li { max-width: 72ch; font-size: 14.5px; line-height: 1.85; margin: 4px 0; }
+.seo ul, .seo ol { padding-left: 1.4em; }
+.seo dl { margin: 0; }
+.seo dt { font-weight: 700; margin-top: 12px; }
+.seo dd { margin: 2px 0 0; max-width: 72ch; color: var(--muted); font-size: 14.5px; line-height: 1.8; }
+.seo .tbl { overflow-x: auto; }
+.seo table { border-collapse: collapse; font-size: 14px; background: var(--sheet); }
+.seo th, .seo td { border: 1px solid var(--rule); padding: 6px 10px; text-align: left; vertical-align: top; }
+.seo th { white-space: nowrap; }
+.seo code { font-family: var(--font-num); background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; padding: 0 4px; }
+.seo .more { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 13.5px; color: var(--muted); }
+.seo .more a { color: var(--ink); }
+
+</style>
+</head>
+<body>
+<nav class="tnav" aria-label="ポンチ絵工房の道具"><a class="home" href="./">ポンチ絵工房</a><a href="dentaku.html" aria-current="page">高機能電卓</a><a href="sankakuhi.html">三角比メーカー</a><a href="guide.html">ポンチ絵工房の使い方</a></nav>
+<div class="wrap">
+  <header>
+    <h1>高機能電卓</h1>
+    <p>四則演算に加えて、sin・cos・tan と逆関数、べき乗、平方根、log などが使えます。角度は「度（DEG）」と「ラジアン（RAD）」を切り替えられます。キーボードでもそのまま打てます。</p>
+  </header>
+
+  <div class="cx">
+    <section class="panel" aria-label="電卓">
+      <div class="cx-bar">
+        <span class="seg" role="group" aria-label="角度の単位">
+          <button type="button" id="cx-deg" aria-pressed="true">度（DEG）</button>
+          <button type="button" id="cx-rad" aria-pressed="false">ラジアン（RAD）</button>
+        </span>
+        <span class="hint" id="cx-mem">M：0</span>
+      </div>
+      <div class="cx-disp">
+        <input id="cx-in" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-label="式" placeholder="式を入力（例：tan(30)×25）">
+        <div class="cx-res" id="cx-res" aria-live="polite">0</div>
+      </div>
+      <div class="cx-keys" id="cx-keys"></div>
+    </section>
+
+    <section class="panel" aria-label="履歴">
+      <div class="cx-bar"><span class="lbl">履歴（押すと式を呼び出します）</span><button type="button" class="btn" id="cx-hclear">履歴を消す</button></div>
+      <div class="cx-hist" id="cx-hist"><span class="hint">計算するとここに残ります。</span></div>
+      <div class="cx-help">
+        <span>・<code>2nd</code> を押すと sin・cos・tan が sin⁻¹・cos⁻¹・tan⁻¹ に切り替わります。</span>
+        <span>・<code>2(3+4)</code> や <code>3π</code> のように掛け算の × は省略できます。</span>
+        <span>・<code>Ans</code> は直前の答え、<code>M+</code> <code>M−</code> <code>MR</code> <code>MC</code> はメモリです。</span>
+        <span>・キーボード：数字・+ − * / ^ ( ) . と Enter（＝）、Backspace（1文字消す）、Esc（全部消す）。</span>
+        <span>・例：<code>tan(15)×40</code>（15° の勾配で 40 進んだときの高さ）、<code>atan(3/40)</code>（角度を求める）。</span>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel" aria-labelledby="cx-g-title">
+    <h2 id="cx-g-title">ボタンの説明</h2>
+    <p class="lead">ボタンにマウスを乗せても、同じ説明が出ます。</p>
+    <dl class="cx-guide" id="cx-guide"></dl>
+  </section>
+</div>
+
+<script>
+const $c = id => document.getElementById(id);
+const inp = $c('cx-in'), res = $c('cx-res');
+let deg = true, second = false, ans = 0, mem = 0, justDone = false;
+const hist = [];
+
+// ---- 計算（eval を使わず、自前で式を読む）
+function tokenize(s) {
+  s = s.normalize('NFKC').replace(/×/g, '*').replace(/÷/g, '/').replace(/[−–]/g, '-').replace(/√/g, 'sqrt ').replace(/π/g, 'pi').replace(/⁻¹/g, '_inv').replace(/²/g, '^2').replace(/³/g, '^3');
+  const t = [];
+  let i = 0;
+  while (i < s.length) {
+    const c = s[i];
+    if (c === ' ') { i++; continue; }
+    if (/[0-9.]/.test(c)) {
+      let j = i; while (j < s.length && /[0-9.]/.test(s[j])) j++;
+      if (s[j] === 'e' && /[-+0-9]/.test(s[j + 1] || '') && !/[a-z]/i.test(s[j + 1])) { j += 2; while (j < s.length && /[0-9]/.test(s[j])) j++; }
+      const n = Number(s.slice(i, j)); if (Number.isNaN(n)) throw new Error('数字の書き方が正しくありません');
+      t.push({ k: 'n', v: n }); i = j; continue;
+    }
+    if (/[a-z_]/i.test(c)) {
+      let j = i; while (j < s.length && /[a-z_0-9]/i.test(s[j])) j++;
+      t.push({ k: 'id', v: s.slice(i, j).toLowerCase() }); i = j; continue;
+    }
+    if ('+-*/^()%!,'.includes(c)) { t.push({ k: c }); i++; continue; }
+    throw new Error(`「${c}」は使えません`);
+  }
+  return t;
+}
+const FN = {
+  sin: x => Math.sin(toRad(x)), cos: x => Math.cos(toRad(x)), tan: x => tanSafe(x),
+  asin: x => fromRad(Math.asin(x)), acos: x => fromRad(Math.acos(x)), atan: x => fromRad(Math.atan(x)),
+  sin_inv: x => fromRad(Math.asin(x)), cos_inv: x => fromRad(Math.acos(x)), tan_inv: x => fromRad(Math.atan(x)),
+  sqrt: x => Math.sqrt(x), cbrt: x => Math.cbrt(x), log: x => Math.log10(x), ln: x => Math.log(x), exp: x => Math.exp(x), abs: x => Math.abs(x),
+};
+const CONST = { pi: Math.PI, e: Math.E };
+const toRad = x => deg ? x * Math.PI / 180 : x;
+const fromRad = x => deg ? x * 180 / Math.PI : x;
+function tanSafe(x) {
+  // 90°（π/2）の奇数倍では tan は無限大
+  const r = toRad(x), k = r / (Math.PI / 2);
+  if (Math.abs(k - Math.round(k)) < 1e-12 && Math.round(k) % 2 !== 0) throw new Error('tan はこの角度では値がありません（90° の奇数倍）');
+  return Math.tan(r);
+}
+function fact(n) {
+  if (n < 0 || !Number.isInteger(n)) throw new Error('! は0以上の整数だけに使えます');
+  if (n > 170) return Infinity;
+  let r = 1; for (let i = 2; i <= n; i++) r *= i; return r;
+}
+function parse(tokens) {
+  let p = 0;
+  const peek = () => tokens[p], take = () => tokens[p++];
+  const startsValue = t => t && (t.k === 'n' || t.k === 'id' || t.k === '(');
+  function expr() { let v = term(); while (peek() && (peek().k === '+' || peek().k === '-')) { const o = take().k; const r = term(); v = o === '+' ? v + r : v - r; } return v; }
+  function term() {
+    let v = unary();
+    while (true) {
+      const t = peek();
+      if (t && (t.k === '*' || t.k === '/')) { take(); const r = unary(); if (t.k === '/' && r === 0) throw new Error('0 では割れません'); v = t.k === '*' ? v * r : v / r; }
+      else if (startsValue(t)) { v = v * unary(); }   // 2π、3(4+5) のような掛け算の省略
+      else return v;
+    }
+  }
+  function unary() { if (peek() && peek().k === '-') { take(); return -unary(); } if (peek() && peek().k === '+') { take(); return unary(); } return power(); }
+  function power() { const b = postfix(); if (peek() && peek().k === '^') { take(); return Math.pow(b, unary()); } return b; }
+  function postfix() {
+    let v = primary();
+    while (peek() && (peek().k === '!' || peek().k === '%')) { const o = take().k; v = o === '!' ? fact(v) : v / 100; }
+    return v;
+  }
+  function primary() {
+    const t = take();
+    if (!t) throw new Error('式が途中で終わっています');
+    if (t.k === 'n') return t.v;
+    if (t.k === '(') { const v = expr(); if (!peek() || peek().k !== ')') throw new Error('かっこが閉じていません'); take(); return v; }
+    if (t.k === 'id') {
+      if (t.v === 'ans') return ans;
+      if (t.v in CONST) return CONST[t.v];
+      if (t.v in FN) {
+        let a;
+        if (peek() && peek().k === '(') { take(); a = expr(); if (!peek() || peek().k !== ')') throw new Error('かっこが閉じていません'); take(); }
+        else a = power();
+        const v = FN[t.v](a);
+        if (Number.isNaN(v)) throw new Error(`${t.v} の値の範囲外です`);
+        return v;
+      }
+      throw new Error(`「${t.v}」は使えません`);
+    }
+    throw new Error('式の書き方が正しくありません');
+  }
+  const v = expr();
+  if (p < tokens.length) throw new Error('式の書き方が正しくありません');
+  return v;
+}
+function evaluate(s) {
+  // 閉じ忘れのかっこは最後に補う
+  const open = (s.match(/\(/g) || []).length - (s.match(/\)/g) || []).length;
+  if (open > 0) s += ')'.repeat(open);
+  const v = parse(tokenize(s));
+  if (!Number.isFinite(v)) throw new Error('値が大きすぎるか、計算できません');
+  return v;
+}
+function fmt(v) {
+  if (v === 0) return '0';
+  const r = Number(v.toPrecision(12));
+  if (Math.abs(r) >= 1e15 || Math.abs(r) < 1e-9) return r.toExponential(8).replace(/\.?0+e/, 'e');
+  return r.toLocaleString('ja-JP', { maximumFractionDigits: 10 });
+}
+
+// ---- 表示
+function preview() {
+  const s = inp.value.trim();
+  res.classList.remove('err');
+  if (!s) { res.textContent = fmt(ans); return; }
+  try { res.textContent = '＝ ' + fmt(evaluate(s)); } catch (e) { res.textContent = ''; }
+}
+function equals() {
+  const s = inp.value.trim();
+  if (!s) return;
+  try {
+    const v = evaluate(s);
+    ans = v;
+    hist.unshift({ s, v, unit: /sin|cos|tan/.test(s) ? (deg ? 'DEG' : 'RAD') : '' });
+    if (hist.length > 50) hist.pop();
+    renderHist();
+    res.classList.remove('err');
+    res.textContent = fmt(v);
+    inp.value = String(Number(v.toPrecision(12)));
+    justDone = true;
+  } catch (e) {
+    res.classList.add('err');
+    res.textContent = e.message;
+  }
+}
+function renderHist() {
+  $c('cx-hist').innerHTML = hist.length
+    ? hist.map((h, i) => `<button type="button" data-i="${i}"><span>${h.s.replace(/</g, '&lt;')}${h.unit ? `（${h.unit}）` : ''}</span><b>＝ ${fmt(h.v)}</b></button>`).join('')
+    : '<span class="hint">計算するとここに残ります。</span>';
+}
+$c('cx-hist').addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (!b) return; inp.value = hist[+b.dataset.i].s; justDone = false; preview(); inp.focus(); });
+$c('cx-hclear').addEventListener('click', () => { hist.length = 0; renderHist(); });
+
+// 入力欄のカーソル位置に文字を入れる
+function insert(text) {
+  if (justDone) {
+    // 答えのすぐ後に演算子なら続けて計算、数字や関数なら新しい式
+    inp.value = /^[+\-×÷*/^%!²]/.test(text) ? String(Number(ans.toPrecision(12))) : '';
+    justDone = false;
+  }
+  const a = inp.selectionStart ?? inp.value.length, b = inp.selectionEnd ?? inp.value.length;
+  inp.value = inp.value.slice(0, a) + text + inp.value.slice(b);
+  const pos = a + text.length;
+  inp.setSelectionRange(pos, pos);
+  preview();
+}
+
+// ---- キー
+const KEYS = [
+  ['2nd', 'fn', 'second'], ['DEG', 'fn', 'unit'], ['(', 'fn'], [')', 'fn'], ['⌫', 'clr', 'back'], ['AC', 'clr', 'clear'],
+  ['sin', 'fn', 'sin('], ['cos', 'fn', 'cos('], ['tan', 'fn', 'tan('], ['π', 'fn'], ['e', 'fn', 'e'], ['÷', 'op'],
+  ['x²', 'fn', '²'], ['xʸ', 'fn', '^'], ['√', 'fn', '√('], ['7', ''], ['8', ''], ['9', ''],
+  ['log', 'fn', 'log('], ['ln', 'fn', 'ln('], ['1/x', 'fn', 'inv'], ['4', ''], ['5', ''], ['6', ''],
+  ['n!', 'fn', '!'], ['%', 'fn', '%'], ['±', 'fn', 'neg'], ['1', ''], ['2', ''], ['3', ''],
+  ['MC', 'fn', 'mc'], ['MR', 'fn', 'mr'], ['M+', 'fn', 'mplus'], ['M−', 'fn', 'mminus'], ['0', ''], ['.', ''],
+  ['Ans', 'fn', 'Ans'], ['×', 'op'], ['−', 'op'], ['+', 'op'], ['00', ''], ['=', 'eq', 'equals'],
+];
+// ボタンの説明 [ボタン, 説明]
+const GUIDE = [
+  ['2nd', '押すと sin・cos・tan が逆関数（sin⁻¹・cos⁻¹・tan⁻¹）に切り替わります。もう一度押すと戻ります。逆関数を1回使うと自動で戻ります。'],
+  ['DEG', '角度の単位を 度（DEG）とラジアン（RAD）で切り替えます。上の切り替えボタンと同じです。'],
+  ['( )', 'かっこ。先に計算したい部分を囲みます。閉じ忘れは最後に自動で補います。'],
+  ['⌫', '1文字消します（キーボードの Backspace と同じ）。'],
+  ['AC', '式を全部消します（キーボードの Esc と同じ）。答え（Ans）とメモリは残ります。'],
+  ['sin', 'サイン。角度から 高さ÷斜辺 を出します。例：<code>sin(30)</code> ＝ 0.5'],
+  ['cos', 'コサイン。角度から 底辺÷斜辺 を出します。例：<code>cos(60)</code> ＝ 0.5'],
+  ['tan', 'タンジェント。角度から 高さ÷底辺 を出します。例：<code>tan(15)×40</code> で、15° の勾配で40進んだときの高さ。'],
+  ['sin⁻¹ など', '逆三角関数（2nd を押すと出ます）。比から角度を出します。例：<code>atan(3/40)</code> ＝ 約4.29°'],
+  ['π', '円周率（3.14159…）。例：<code>π×10</code> で φ10 の円周。'],
+  ['e', '自然対数の底（2.71828…）。'],
+  ['x²', '2乗します。例：<code>5²</code> ＝ 25'],
+  ['xʸ', 'べき乗。例：<code>2^10</code> ＝ 1024'],
+  ['√', '平方根（ルート）。例：<code>√2</code> ＝ 1.414…、<code>√(3²+4²)</code> ＝ 5'],
+  ['log', '常用対数（底10）。例：<code>log(1000)</code> ＝ 3'],
+  ['ln', '自然対数（底 e）。'],
+  ['1/x', 'いまの式の逆数にします（1 ÷ 式）。'],
+  ['n!', '階乗。例：<code>5!</code> ＝ 120（0以上の整数だけ）'],
+  ['%', 'パーセント（÷100）。例：<code>200×15%</code> ＝ 30'],
+  ['±', 'いまの式の符号（＋−）を入れ替えます。'],
+  ['MC', 'メモリを 0 に戻します。'],
+  ['MR', 'メモリの数を式に入れます。'],
+  ['M+', 'いまの答えをメモリに足します。いくつかの答えを合計するときに使います。'],
+  ['M−', 'いまの答えをメモリから引きます。'],
+  ['Ans', '直前の答えを式に入れます。答えのすぐ後に ＋ などを押すと、続けて計算できます。'],
+  ['00', '0 を2つ入れます。'],
+  ['=', '計算します（キーボードの Enter と同じ）。結果は右の履歴に残ります。'],
+];
+const TIP = { '2nd': 0, 'DEG': 1, '(': 2, ')': 2, '⌫': 3, 'AC': 4, 'sin': 5, 'cos': 6, 'tan': 7, 'π': 9, 'e': 10, 'x²': 11, 'xʸ': 12, '√': 13, 'log': 14, 'ln': 15, '1/x': 16, 'n!': 17, '%': 18, '±': 19, 'MC': 20, 'MR': 21, 'M+': 22, 'M−': 23, 'Ans': 24, '00': 25, '=': 26 };
+const plain = h => h.replace(/<[^>]+>/g, '');
+$c('cx-guide').innerHTML = GUIDE.map(([k, d]) => `<div><dt>${k}</dt><dd>${d}</dd></div>`).join('');
+
+function renderKeys() {
+  $c('cx-keys').innerHTML = KEYS.map(([label, cls, act], i) => {
+    let l = label;
+    if (second && ['sin', 'cos', 'tan'].includes(label)) l = label + '⁻¹';
+    if (label === 'DEG') l = deg ? 'DEG' : 'RAD';
+    const on = label === '2nd' && second;
+    let tip = TIP[label] != null ? plain(GUIDE[TIP[label]][1]) : (/^[0-9.]$/.test(label) ? '' : '');
+    if (second && ['sin', 'cos', 'tan'].includes(label)) tip = plain(GUIDE[8][1]);
+    if (['+', '−', '×', '÷'].includes(label)) tip = { '+': '足し算', '−': '引き算', '×': '掛け算（キーボードは *）', '÷': '割り算（キーボードは /）' }[label];
+    return `<button type="button" class="${cls}${on ? ' on' : ''}" data-i="${i}"${tip ? ` title="${tip.replace(/"/g, '&quot;')}"` : ''}>${l}</button>`;
+  }).join('');
+}
+function setUnit(d) {
+  deg = d;
+  $c('cx-deg').setAttribute('aria-pressed', d);
+  $c('cx-rad').setAttribute('aria-pressed', !d);
+  renderKeys(); preview();
+}
+$c('cx-deg').addEventListener('click', () => setUnit(true));
+$c('cx-rad').addEventListener('click', () => setUnit(false));
+
+function current() { try { return inp.value.trim() ? evaluate(inp.value) : ans; } catch (e) { return null; } }
+function showMem() { $c('cx-mem').textContent = `M：${fmt(mem)}`; }
+
+$c('cx-keys').addEventListener('click', e => {
+  const b = e.target.closest('button[data-i]'); if (!b) return;
+  const [label, , act] = KEYS[+b.dataset.i];
+  const a = act || label;
+  if (a === 'second') { second = !second; renderKeys(); }
+  else if (a === 'unit') setUnit(!deg);
+  else if (a === 'back') { justDone = false; const p = inp.selectionStart ?? inp.value.length; if (p > 0) { inp.value = inp.value.slice(0, p - 1) + inp.value.slice(p); inp.setSelectionRange(p - 1, p - 1); } preview(); }
+  else if (a === 'clear') { inp.value = ''; justDone = false; res.classList.remove('err'); res.textContent = '0'; }
+  else if (a === 'equals') equals();
+  else if (a === 'inv') { const v = current(); if (v != null) { inp.value = `1/(${inp.value.trim() || 'Ans'})`; justDone = false; preview(); } }
+  else if (a === 'neg') { const v = inp.value.trim(); inp.value = v ? (v.startsWith('-(') && v.endsWith(')') ? v.slice(2, -1) : `-(${v})`) : '-'; justDone = false; preview(); }
+  else if (a === 'mc') { mem = 0; showMem(); }
+  else if (a === 'mr') insert(String(Number(mem.toPrecision(12))));
+  else if (a === 'mplus' || a === 'mminus') { const v = current(); if (v != null) { mem += a === 'mplus' ? v : -v; showMem(); } }
+  else if (['sin(', 'cos(', 'tan('].includes(a)) { insert(second ? 'a' + a : a); if (second) { second = false; renderKeys(); } }
+  else insert(a);
+  if (a !== 'equals') inp.focus();
+});
+
+inp.addEventListener('input', () => { justDone = false; preview(); });
+inp.addEventListener('keydown', e => {
+  if (e.isComposing) return;
+  if (e.key === 'Enter' || e.key === '=') { e.preventDefault(); equals(); }
+  else if (e.key === 'Escape') { inp.value = ''; justDone = false; res.textContent = '0'; res.classList.remove('err'); }
+  else if (justDone && e.key.length === 1) {
+    // 答えの後に数字を打ったら新しい式、演算子なら答えに続ける
+    if (!/[+\-*/^%!]/.test(e.key)) inp.value = '';
+    justDone = false;
+  }
+});
+
+renderKeys(); showMem(); preview();
+</script>
+<section class="seo">
+<h2>高機能電卓でできること</h2>
+<p>ふつうの四則演算に加えて、三角関数（sin・cos・tan と逆関数）、べき乗（x²・xʸ）、平方根（√）、対数（log・ln）、階乗（n!）、パーセント、逆数（1/x）、円周率 π と自然対数の底 e が使えます。式は <code>tan(30)×25</code> のように1行で打ち込めるので、途中の数字を書き写す手間がありません。<code>2π</code> や <code>3(4+5)</code> のように掛け算の × は省略でき、閉じ忘れたかっこは自動で補います。</p>
+<h2>製造現場での計算例</h2>
+<div class="tbl"><table>
+<tr><th>知りたいこと</th><th>打ち込む式</th><th>意味</th></tr>
+<tr><td>勾配 15° で 40 mm 進んだときの高さ</td><td><code>tan(15)×40</code></td><td>高さ ＝ 進んだ長さ × tan(角度)</td></tr>
+<tr><td>高さ 3 mm・長さ 40 mm の斜面の角度</td><td><code>atan(3/40)</code></td><td>角度 ＝ tan⁻¹(高さ ÷ 長さ)</td></tr>
+<tr><td>テーパーの片側の角度（直径 20→16、長さ 30）</td><td><code>atan((20−16)/2/30)</code></td><td>半径の差 ÷ 長さ の tan⁻¹</td></tr>
+<tr><td>PCD 100 の穴を 6 等分したときの 1 個目の X 座標（30°）</td><td><code>50cos(30)</code></td><td>X ＝ 半径 × cos(角度)、Y は sin</td></tr>
+<tr><td>φ12 の丸棒の断面積</td><td><code>π×6²</code></td><td>面積 ＝ π × 半径²</td></tr>
+</table></div>
+<h2>使い方</h2>
+<ol>
+<li>上の欄に式を打つか、ボタンを押して式を作ります。打っている間も答えの見込みが表示されます。</li>
+<li>「＝」か Enter で計算します。答えは右の履歴に残り、押すと式を呼び出せます。</li>
+<li>直前の答えは <code>Ans</code>、メモリは <code>M+</code> <code>M−</code> <code>MR</code> <code>MC</code> で使います。</li>
+</ol>
+<h2>よくある質問</h2><dl><dt>度（DEG）とラジアン（RAD）はどう切り替えますか？</dt><dd>表示の上にある「度（DEG）」「ラジアン（RAD）」のボタンで切り替えます。最初は度になっています。</dd><dt>sin⁻¹（アークサイン）などの逆関数はどう使いますか？</dt><dd>「2nd」を押すと sin・cos・tan のボタンが sin⁻¹・cos⁻¹・tan⁻¹ に切り替わります。式に asin(0.5) のように打ち込むこともできます。</dd><dt>計算の履歴は保存されますか？</dt><dd>画面を開いている間だけ右側に残ります。ページを閉じると消え、どこにも送られません。</dd><dt>キーボードで打てますか？</dt><dd>打てます。数字と + − * / ^ ( ) . を打ち、Enter で計算、Backspace で1文字、Esc で全部消します。</dd></dl>
+<p class="more">ほかの道具：<a href="./">ポンチ絵工房（製造業向けのポンチ絵・図面）</a> ／ <a href="dentaku.html">高機能電卓</a> ／ <a href="sankakuhi.html">三角比メーカー</a></p>
+</section>
+</body>
+</html>

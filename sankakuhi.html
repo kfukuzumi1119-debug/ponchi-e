@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>三角比メーカー（製造現場版）｜テーパー・面取り・勾配の寸法を直角三角形で計算（無料）</title>
+<meta name="description" content="直角三角形の図に辺の長さか角度を2つ入れるだけで、残りの辺と角度、sin・cos・tan がすぐ出る無料ツール。テーパーの角度、面取りの斜辺の長さ、勾配の高さなど、機械加工や図面の寸法計算に。√ や分数の形の答え、30°・45°・60° の正確な値も表示します。">
+<link rel="canonical" href="https://ponchie.hibitool.com/sankakuhi.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ポンチ絵工房">
+<meta property="og:title" content="三角比メーカー（製造現場版）｜テーパー・面取り・勾配の寸法を直角三角形で計算（無料）">
+<meta property="og:description" content="直角三角形の図に辺の長さか角度を2つ入れるだけで、残りの辺と角度、sin・cos・tan がすぐ出る無料ツール。テーパーの角度、面取りの斜辺の長さ、勾配の高さなど、機械加工や図面の寸法計算に。√ や分数の形の答え、30°・45°・60° の正確な値も表示します。">
+<meta property="og:url" content="https://ponchie.hibitool.com/sankakuhi.html">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "WebApplication", "name": "三角比メーカー", "url": "https://ponchie.hibitool.com/sankakuhi.html", "description": "直角三角形の図に辺の長さか角度を2つ入れるだけで、残りの辺と角度、sin・cos・tan がすぐ出る無料ツール。テーパーの角度、面取りの斜辺の長さ、勾配の高さなど、機械加工や図面の寸法計算に。√ や分数の形の答え、30°・45°・60° の正確な値も表示します。", "applicationCategory": "UtilitiesApplication", "operatingSystem": "All", "inLanguage": "ja", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "どの値を入れればいいですか？", "acceptedAnswer": {"@type": "Answer", "text": "高さ・底辺・斜辺・角度のうち、わかっている値を2つ入れてください。最後に入れた2つから残りを計算します。"}}, {"@type": "Question", "name": "面取り C1 の斜めの長さは？", "acceptedAnswer": {"@type": "Answer", "text": "高さと底辺に 1 を入れると、斜辺が √2（約 1.414）と出ます。C0.5 なら 0.5 と 0.5 で約 0.707 です。"}}, {"@type": "Question", "name": "角度は度（°）で入れますか？", "acceptedAnswer": {"@type": "Answer", "text": "度で入れてください。30°・45°・60° は √ を使った正確な値も表示します。"}}, {"@type": "Question", "name": "勉強にも使えますか？", "acceptedAnswer": {"@type": "Answer", "text": "使えます。中学・高校の三角比の確かめにも使えるよう、どの辺÷どの辺かを色で示しています。"}}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>[hidden]{display:none!important}body{margin:0}</style>
+<style>
+
+/* 方眼ノートの上に直角三角形。辺ごとに色を決め、図と式で同じ色を使って「どの辺÷どの辺か」を目で追えるようにする */
+:root {
+  --paper: #f4f6f3;
+  --sheet: #fbfcfa;
+  --ink: #1c2733;
+  --muted: #5b6875;
+  --rule: #d9dfd8;
+  --grid: #e3e9e2;
+  --side-a: #c4462a;   /* 高さ（対辺） */
+  --side-b: #2a62a8;   /* 底辺（隣辺） */
+  --side-c: #2a7f4f;   /* 斜辺 */
+  --angle: #a8740a;
+  --fill: rgba(42, 98, 168, 0.06);
+  --warn-bg: #fdf0e6;
+  --warn-fg: #9a3b12;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12171c; --sheet: #182027; --ink: #e5eaee; --muted: #9aa7b2;
+    --rule: #2c3741; --grid: #222c35;
+    --side-a: #f0866a; --side-b: #7eaef0; --side-c: #6cc994; --angle: #e6b84a;
+    --fill: rgba(126, 174, 240, 0.08); --warn-bg: #3a2418; --warn-fg: #f3b08a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12171c; --sheet: #182027; --ink: #e5eaee; --muted: #9aa7b2;
+  --rule: #2c3741; --grid: #222c35;
+  --side-a: #f0866a; --side-b: #7eaef0; --side-c: #6cc994; --angle: #e6b84a;
+  --fill: rgba(126, 174, 240, 0.08); --warn-bg: #3a2418; --warn-fg: #f3b08a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.7;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 28px 16px 48px; display: grid; gap: 20px; }
+header h1 { margin: 0; font-size: 1.6rem; font-weight: 700; letter-spacing: 0.02em; text-wrap: balance; }
+header p { margin: 4px 0 0; color: var(--muted); max-width: 60ch; }
+.main { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 820px) { .main { grid-template-columns: 1fr; } }
+
+.board {
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 14px; display: grid; gap: 12px; min-width: 0;
+}
+.fig { position: relative; width: 100%; }
+.fig svg { display: block; width: 100%; height: auto; }
+.grid-line { stroke: var(--grid); stroke-width: 1; }
+.tri { fill: var(--fill); stroke: none; }
+.side { stroke-width: 5; stroke-linecap: round; transition: opacity .2s; }
+.side-a { stroke: var(--side-a); }
+.side-b { stroke: var(--side-b); }
+.side-c { stroke: var(--side-c); }
+.mark { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.arc { fill: none; stroke: var(--angle); stroke-width: 2.5; }
+.arc-label { fill: var(--angle); font: 600 18px var(--font-num); }
+.ghost .side, .ghost .tri { opacity: .3; }
+.fig[data-hl="sin"] .side-b, .fig[data-hl="cos"] .side-a, .fig[data-hl="tan"] .side-c { opacity: .15; }
+
+.field {
+  position: absolute; display: grid; gap: 2px; justify-items: center;
+  width: 7.2em; font-size: 13px; line-height: 1.3;
+}
+.field label { font-weight: 700; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+.field[data-k="a"] label { color: var(--side-a); }
+.field[data-k="b"] label { color: var(--side-b); }
+.field[data-k="c"] label { color: var(--side-c); }
+.field[data-k="t"] label { color: var(--angle); }
+.field input {
+  width: 100%; font: 600 16px var(--font-num); text-align: center;
+  padding: 5px 4px; border-radius: 6px; border: 2px solid currentColor;
+  background: var(--sheet); color: var(--ink);
+}
+.field[data-k="a"] input { border-color: var(--side-a); }
+.field[data-k="b"] input { border-color: var(--side-b); }
+.field[data-k="c"] input { border-color: var(--side-c); }
+.field[data-k="t"] input { border-color: var(--angle); }
+.field input.computed { border-style: dashed; background: var(--paper); color: var(--muted); font-weight: 400; }
+.field input:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; }
+.field .exact { font: 12px var(--font-num); color: var(--muted); min-height: 1.2em; }
+.tag { font: 10px var(--font-body); font-weight: 500; padding: 0 5px; border-radius: 4px; background: var(--rule); color: var(--muted); }
+
+.status { margin: 0; padding: 8px 12px; border-radius: 6px; background: var(--paper); color: var(--muted); font-size: 14px; }
+.status.err { background: var(--warn-bg); color: var(--warn-fg); }
+.presets { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.presets span { font-size: 13px; color: var(--muted); }
+button {
+  font: 500 13px var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 4px 12px; cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; }
+
+.results { display: grid; gap: 12px; min-width: 0; }
+.card {
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 12px 16px; display: grid; gap: 4px; cursor: default;
+}
+.card:hover, .card:focus-within { border-color: var(--muted); }
+.card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.card .fn { font: 600 18px var(--font-num); }
+.card .hint { font-size: 13px; color: var(--muted); }
+.eq { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font: 400 17px var(--font-num); font-variant-numeric: tabular-nums; }
+.frac { display: inline-grid; justify-items: center; line-height: 1.25; }
+.frac > span { padding: 0 4px; }
+.frac > span:first-child { border-bottom: 2px solid var(--ink); }
+.frac .a { color: var(--side-a); } .frac .b { color: var(--side-b); } .frac .c { color: var(--side-c); }
+.eq .dec { font-weight: 600; font-size: 22px; }
+.eq .ex { color: var(--ink); }
+.op { color: var(--muted); }
+.angles { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 16px; display: grid; grid-template-columns: auto 1fr; gap: 2px 16px; font-size: 14px; }
+.angles dt { color: var(--muted); }
+.angles dd { margin: 0; font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+.memo { font-size: 13px; color: var(--muted); max-width: 70ch; }
+.memo b { color: var(--ink); }
+.formulas { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 16px; }
+.f-head h2 { margin: 0; font-size: 1.2rem; text-wrap: balance; }
+.f-head p { margin: 4px 0 0; color: var(--muted); font-size: 14px; max-width: 72ch; }
+.f-head b { color: var(--ink); }
+.f-head .k-found { color: var(--side-a); }
+#f-groups { display: grid; gap: 16px; }
+.f-group { display: grid; gap: 8px; }
+.f-group h3 { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; }
+.f-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 640px) { .f-list { grid-template-columns: 1fr; } }
+.f-card { position: relative; border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px 10px; display: grid; gap: 4px; background: var(--sheet); transition: border-color .2s, background .2s; }
+.f-card.used { border: 2px solid var(--ink); background: var(--paper); padding: 7px 9px 9px; }
+.f-card .badge { position: absolute; top: 6px; right: 8px; font-size: 11px; font-weight: 700; padding: 0 6px; border-radius: 4px; background: var(--ink); color: var(--sheet); }
+.f-card:not(.used) .badge { display: none; }
+.f-card .when { font-size: 12px; color: var(--muted); padding-right: 4.2em; }
+.f-card .fx { font: 600 15px var(--font-num); white-space: nowrap; overflow-x: auto; }
+.f-card svg { width: 100%; max-width: 150px; height: auto; display: block; }
+.v-a { color: var(--side-a); } .v-b { color: var(--side-b); } .v-c { color: var(--side-c); } .v-t { color: var(--angle); }
+.mini-thin { stroke: var(--muted); stroke-width: 1.2; opacity: .6; }
+.mini-given { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+.mini-found { stroke-width: 4.5; stroke-linecap: round; }
+.mini-found.s-a { stroke: var(--side-a); } .mini-found.s-b { stroke: var(--side-b); } .mini-found.s-c { stroke: var(--side-c); }
+.mini-arc { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+.mini-arc.given { stroke: var(--ink); stroke-width: 2.5; }
+.mini-arc.found { stroke: var(--angle); stroke-width: 3; }
+.mini-mark { fill: none; stroke: var(--muted); stroke-width: 1; }
+.mini-lbl { font: 600 11px var(--font-num); fill: var(--muted); }
+@media (max-width: 480px) {
+  .field { width: 5.6em; font-size: 12px; }
+  .field input { font-size: 14px; padding: 4px 2px; }
+}
+
+
+.tnav { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: center; max-width: 1120px; margin: 0 auto; padding: 12px 16px 0; font: 700 13px var(--font-body); }
+.tnav a { color: var(--muted); text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent; }
+.tnav a:hover { color: var(--ink); }
+.tnav a[aria-current] { color: var(--ink); border-bottom-color: var(--ink); }
+.tnav .home { color: var(--ink); margin-right: 6px; }
+.seo { max-width: 1120px; margin: 0 auto; padding: 8px 16px 48px; color: var(--ink); }
+.seo h2 { font-size: 1.1rem; margin: 26px 0 6px; text-wrap: balance; }
+.seo p, .seo li { max-width: 72ch; font-size: 14.5px; line-height: 1.85; margin: 4px 0; }
+.seo ul, .seo ol { padding-left: 1.4em; }
+.seo dl { margin: 0; }
+.seo dt { font-weight: 700; margin-top: 12px; }
+.seo dd { margin: 2px 0 0; max-width: 72ch; color: var(--muted); font-size: 14.5px; line-height: 1.8; }
+.seo .tbl { overflow-x: auto; }
+.seo table { border-collapse: collapse; font-size: 14px; background: var(--sheet); }
+.seo th, .seo td { border: 1px solid var(--rule); padding: 6px 10px; text-align: left; vertical-align: top; }
+.seo th { white-space: nowrap; }
+.seo code { font-family: var(--font-num); background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; padding: 0 4px; }
+.seo .more { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 13.5px; color: var(--muted); }
+.seo .more a { color: var(--ink); }
+
+</style>
+</head>
+<body>
+<nav class="tnav" aria-label="ポンチ絵工房の道具"><a class="home" href="./">ポンチ絵工房</a><a href="dentaku.html">高機能電卓</a><a href="sankakuhi.html" aria-current="page">三角比メーカー</a><a href="guide.html">ポンチ絵工房の使い方</a></nav>
+<div class="wrap">
+  <header>
+    <h1>三角比メーカー</h1>
+    <p>図の中の枠に、辺の長さか角度を<b>2つ</b>入れてください。残りの辺と角、sin・cos・tan がすぐに出ます。</p>
+  </header>
+
+  <div class="main">
+    <section class="board" aria-label="直角三角形の図">
+      <div class="fig" id="fig">
+        <svg id="svg" viewBox="0 0 640 400" role="img" aria-label="入力に合わせて描かれる直角三角形"></svg>
+        <div class="field" data-k="c"><label for="in-c">斜辺 c</label><input id="in-c" type="text" inputmode="decimal" autocomplete="off"><span class="exact"></span></div>
+        <div class="field" data-k="a"><label for="in-a">高さ a</label><input id="in-a" type="text" inputmode="decimal" autocomplete="off"><span class="exact"></span></div>
+        <div class="field" data-k="b"><label for="in-b">底辺 b</label><input id="in-b" type="text" inputmode="decimal" autocomplete="off"><span class="exact"></span></div>
+        <div class="field" data-k="t"><label for="in-t">角 θ（度）</label><input id="in-t" type="text" inputmode="decimal" autocomplete="off"><span class="exact"></span></div>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+      <div class="presets">
+        <span>例：</span>
+        <button type="button" data-p='{"a":"3","b":"4"}'>3・4・5</button>
+        <button type="button" data-p='{"a":"1","b":"1"}'>1・1・√2</button>
+        <button type="button" data-p='{"t":"30","c":"2"}'>30° と斜辺 2</button>
+        <button type="button" data-p='{"t":"60","b":"1"}'>60° と底辺 1</button>
+        <button type="button" data-p='{"t":"25"}'>角度だけ 25°</button>
+        <button type="button" data-p='{}'>クリア</button>
+      </div>
+    </section>
+
+    <section class="results" aria-label="計算結果">
+      <div class="card" data-fn="sin" tabindex="0">
+        <div class="head"><span class="fn">sin θ</span><span class="hint">高さ ÷ 斜辺</span></div>
+        <div class="eq" id="eq-sin"></div>
+      </div>
+      <div class="card" data-fn="cos" tabindex="0">
+        <div class="head"><span class="fn">cos θ</span><span class="hint">底辺 ÷ 斜辺</span></div>
+        <div class="eq" id="eq-cos"></div>
+      </div>
+      <div class="card" data-fn="tan" tabindex="0">
+        <div class="head"><span class="fn">tan θ</span><span class="hint">高さ ÷ 底辺</span></div>
+        <div class="eq" id="eq-tan"></div>
+      </div>
+      <dl class="angles">
+        <dt>θ</dt><dd id="o-deg">—</dd>
+        <dt>ラジアン</dt><dd id="o-rad">—</dd>
+        <dt>もう一つの角</dt><dd id="o-other">—</dd>
+        <dt>面積</dt><dd id="o-area">—</dd>
+      </dl>
+      <p class="memo">覚え方：筆記体の <b>s</b> は 底辺→斜辺→高さ の順、<b>c</b> は 斜辺→底辺、<b>t</b> は 底辺→高さ となぞります。なぞった順に「分母→分子」です。<br>√ も使えます（例：<b>√2</b>、<b>2√3</b>）。整数や √ で入れると、答えも √ や分数の形で出ます。</p>
+    </section>
+  </div>
+
+  <section class="formulas" aria-labelledby="f-title">
+    <div class="f-head">
+      <h2 id="f-title">公式 全12パターン</h2>
+      <p>2つわかれば、残りはこの公式で出せます。図の<b class="k-found">色つきの線</b>が求めるもの、<b>太い黒線</b>がわかっているものです。計算に使った公式には「使用中」の印がつきます。<br>教科書によっては 底辺 b を <b>x</b>、高さ a を <b>y</b>、斜辺 c を <b>r</b> と書きます。</p>
+    </div>
+    <div id="f-groups"></div>
+  </section>
+</div>
+
+<script>
+const KEYS = ['a', 'b', 'c', 't'];
+const NAMES = { a: '高さ a', b: '底辺 b', c: '斜辺 c', t: '角 θ' };
+const fig = document.getElementById('fig');
+const svg = document.getElementById('svg');
+const statusEl = document.getElementById('status');
+const fields = {}, inputs = {}, exacts = {};
+for (const k of KEYS) {
+  fields[k] = fig.querySelector(`.field[data-k="${k}"]`);
+  inputs[k] = document.getElementById('in-' + k);
+  exacts[k] = fields[k].querySelector('.exact');
+}
+let order = [];          // 自分で入れた欄（新しいものが後ろ）。最新の2つを使う
+let positions = {};      // 入力欄の置き場所（viewBox 単位）
+let vb = { w: 640, h: 400 };
+
+const rad = d => d * Math.PI / 180, deg = r => r * 180 / Math.PI;
+const isInt = x => Number.isFinite(x) && Math.abs(x - Math.round(x)) < 1e-9;
+const gcd = (x, y) => { while (y) [x, y] = [y, x % y]; return x; };
+
+function simplifySqrt(n) { // √n = k√m
+  for (let i = Math.floor(Math.sqrt(n)); i >= 2; i--) if (n % (i * i) === 0) return [i, n / (i * i)];
+  return [1, n];
+}
+function radicalStr(k, m) { return m === 1 ? String(k) : (k === 1 ? '' : k) + '√' + m; }
+function sqrtStr(n) { const [k, m] = simplifySqrt(n); return radicalStr(k, m); }
+function ratioStr(X, Y) { // √(X/Y) を √ と分数で
+  const [k0, m] = simplifySqrt(X * Y);
+  const g = gcd(k0, Y);
+  const k = k0 / g, den = Y / g;
+  const num = radicalStr(k, m);
+  return den === 1 ? num : num + '/' + den;
+}
+
+function parseVal(raw) {
+  let s = raw.replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+    .replace(/[．。]/g, '.').replace(/ルート|root/gi, '√').replace(/[°度\s]/g, '');
+  if (!s) return null;
+  let m = s.match(/^(\d+(?:\.\d+)?)?√(\d+(?:\.\d+)?)$/);
+  if (m) {
+    const k = m[1] ? parseFloat(m[1]) : 1, r = parseFloat(m[2]);
+    const v = k * Math.sqrt(r);
+    const sq = isInt(k) && isInt(r) && k * k * r <= 1e6 ? Math.round(k * k * r) : null;
+    return v > 0 ? { v, sq } : { bad: true };
+  }
+  if (/^(\d+\.?\d*|\.\d+)$/.test(s)) {
+    const v = parseFloat(s);
+    if (!(v > 0)) return { bad: true };
+    return { v, sq: isInt(v) && v <= 1000 ? Math.round(v * v) : null };
+  }
+  return { bad: true };
+}
+
+function fmt(x, digits = 4) {
+  if (isInt(x)) return String(Math.round(x));
+  return x.toFixed(digits).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+const SPECIAL = {
+  30: { sin: '1/2', cos: '√3/2', tan: '√3/3' },
+  45: { sin: '√2/2', cos: '√2/2', tan: '1' },
+  60: { sin: '√3/2', cos: '1/2', tan: '√3' },
+};
+
+function solve(g, P) {
+  const has = k => g.includes(k);
+  let a, b, c, t, A = null, B = null, C = null;
+  if (has('t')) {
+    t = P.t.v;
+    if (!(t > 0 && t < 90)) return { err: '角 θ は 0° より大きく 90° より小さい値にしてください。' };
+  }
+  if (has('a') && has('b')) {
+    a = P.a.v; b = P.b.v; c = Math.hypot(a, b); t = deg(Math.atan2(a, b));
+    if (P.a.sq && P.b.sq) { A = P.a.sq; B = P.b.sq; C = A + B; }
+  } else if (has('a') && has('c')) {
+    a = P.a.v; c = P.c.v;
+    if (a >= c) return { err: '斜辺 c がいちばん長い辺です。c を 高さ a より大きくしてください。' };
+    b = Math.sqrt(c * c - a * a); t = deg(Math.asin(a / c));
+    if (P.a.sq && P.c.sq) { A = P.a.sq; C = P.c.sq; B = C - A; }
+  } else if (has('b') && has('c')) {
+    b = P.b.v; c = P.c.v;
+    if (b >= c) return { err: '斜辺 c がいちばん長い辺です。c を 底辺 b より大きくしてください。' };
+    a = Math.sqrt(c * c - b * b); t = deg(Math.acos(b / c));
+    if (P.b.sq && P.c.sq) { B = P.b.sq; C = P.c.sq; A = C - B; }
+  } else if (has('t') && has('a')) {
+    a = P.a.v; b = a / Math.tan(rad(t)); c = a / Math.sin(rad(t));
+  } else if (has('t') && has('b')) {
+    b = P.b.v; a = b * Math.tan(rad(t)); c = b / Math.cos(rad(t));
+  } else if (has('t') && has('c')) {
+    c = P.c.v; a = c * Math.sin(rad(t)); b = c * Math.cos(rad(t));
+  }
+  return { a, b, c, t, A, B, C };
+}
+
+function fracHTML(numCls, numVal, denCls, denVal) {
+  return `<span class="frac"><span class="${numCls}">${numVal}</span><span class="${denCls}">${denVal}</span></span>`;
+}
+
+// 公式12パターン。find = 求めるもの、given = わかっているもの
+const V = { a: '<span class="v-a">a</span>', b: '<span class="v-b">b</span>', c: '<span class="v-c">c</span>', t: '<span class="v-t">θ</span>' };
+const FORMULAS = [
+  { find: 'c', given: ['b', 't'], fx: `${V.c} = ${V.b} ÷ cos${V.t}` },
+  { find: 'c', given: ['a', 't'], fx: `${V.c} = ${V.a} ÷ sin${V.t}` },
+  { find: 'c', given: ['a', 'b'], fx: `${V.c} = √(${V.a}² + ${V.b}²)` },
+  { find: 'a', given: ['c', 't'], fx: `${V.a} = sin${V.t} × ${V.c}` },
+  { find: 'a', given: ['b', 't'], fx: `${V.a} = tan${V.t} × ${V.b}` },
+  { find: 'a', given: ['b', 'c'], fx: `${V.a} = √(${V.c}² − ${V.b}²)` },
+  { find: 'b', given: ['c', 't'], fx: `${V.b} = cos${V.t} × ${V.c}` },
+  { find: 'b', given: ['a', 't'], fx: `${V.b} = ${V.a} ÷ tan${V.t}` },
+  { find: 'b', given: ['a', 'c'], fx: `${V.b} = √(${V.c}² − ${V.a}²)` },
+  { find: 't', given: ['a', 'c'], fx: `${V.t} = sin⁻¹(${V.a} ÷ ${V.c})` },
+  { find: 't', given: ['b', 'c'], fx: `${V.t} = cos⁻¹(${V.b} ÷ ${V.c})` },
+  { find: 't', given: ['a', 'b'], fx: `${V.t} = tan⁻¹(${V.a} ÷ ${V.b})` },
+];
+const GROUP_TITLES = { c: '斜辺 c を求める', a: '高さ a を求める', b: '底辺 b を求める', t: '角 θ を求める' };
+const SHORT = { a: '高さ a', b: '底辺 b', c: '斜辺 c', t: 'θ' };
+
+function miniSVG(f) {
+  const role = k => f.find === k ? `mini-found s-${k}` : f.given.includes(k) ? 'mini-given' : 'mini-thin';
+  const arc = f.find === 't' ? 'found' : f.given.includes('t') ? 'given' : '';
+  return `<svg viewBox="0 0 130 74" aria-hidden="true">
+    <path class="mini-mark" d="M100,62 L100,54 L108,54"/>
+    <path class="mini-arc ${arc}" d="M34,62 A22,22 0 0 0 31.4,51.5"/>
+    <line class="${role('b')}" x1="12" y1="62" x2="108" y2="62"/>
+    <line class="${role('a')}" x1="108" y1="62" x2="108" y2="10"/>
+    <line class="${role('c')}" x1="12" y1="62" x2="108" y2="10"/>
+    <text class="mini-lbl" x="60" y="73" text-anchor="middle">b</text>
+    <text class="mini-lbl" x="118" y="40">a</text>
+    <text class="mini-lbl" x="52" y="30">c</text>
+  </svg>`;
+}
+
+const fGroups = document.getElementById('f-groups');
+fGroups.innerHTML = ['c', 'a', 'b', 't'].map(k => `
+  <div class="f-group"><h3 class="v-${k}">${GROUP_TITLES[k]}</h3><div class="f-list">
+    ${FORMULAS.map((f, i) => f.find !== k ? '' : `
+      <div class="f-card" data-i="${i}"><span class="badge">使用中</span>
+        <span class="when">${f.given.map(x => SHORT[x]).join(' と ')} がわかるとき</span>
+        ${miniSVG(f)}
+        <span class="fx">${f.fx}</span>
+      </div>`).join('')}
+  </div></div>`).join('');
+const fCards = [...fGroups.querySelectorAll('.f-card')];
+
+function markFormulas(g) {
+  const key = g.length === 2 ? [...g].sort().join() : '';
+  for (const el of fCards) el.classList.toggle('used', FORMULAS[el.dataset.i].given.join() === key);
+}
+
+function render() {
+  const P = {};
+  let bad = null;
+  for (const k of order) {
+    const p = parseVal(inputs[k].value);
+    if (!p || p.bad) { bad = k; continue; }
+    P[k] = p;
+  }
+  const g = order.filter(k => P[k]).slice(-2);
+  let res = null, msg = '', err = false;
+
+  if (bad) { msg = `${NAMES[bad]} の値が読めません。数字（例：3、2.5、√2、2√3）で入れてください。`; err = true; }
+  else if (g.length === 2) {
+    res = solve(g, P);
+    if (res.err) { msg = res.err; err = true; res = null; }
+    else msg = `${g.map(k => NAMES[k]).join(' と ')} から残りを計算しました。点線の枠が計算した値です。`;
+  } else if (g.length === 1 && g[0] === 't') {
+    const t = P.t.v;
+    if (t > 0 && t < 90) {
+      res = { t, a: null, b: null, c: null };
+      msg = '角度だけでも sin・cos・tan は決まります。辺の長さを出すには、辺を1つ入れてください。';
+    } else { msg = '角 θ は 0° より大きく 90° より小さい値にしてください。'; err = true; }
+  } else if (g.length === 1) {
+    msg = `${NAMES[g[0]]} が入りました。あと1つ、別の辺か角 θ を入れてください。`;
+  } else {
+    msg = '辺の長さか角度を2つ入れてください。';
+  }
+  statusEl.textContent = msg;
+  statusEl.classList.toggle('err', err);
+
+  // 入力欄
+  const sq = res ? { a: res.A, b: res.B, c: res.C } : {};
+  for (const k of KEYS) {
+    const given = g.includes(k);
+    const inp = inputs[k];
+    if (!given && document.activeElement !== inp && !(bad === k)) {
+      const v = res ? res[k] : null;
+      inp.value = v == null ? '' : fmt(v, k === 't' ? 2 : 4);
+    }
+    inp.classList.toggle('computed', !given && !!res && res[k] != null);
+    let ex = '';
+    if (k !== 't' && sq[k] != null && !isInt(Math.sqrt(sq[k]))) ex = '= ' + sqrtStr(sq[k]);
+    if (k === 't' && res && !given && !isInt(res.t)) ex = '≈ ' + res.t.toFixed(2) + '°';
+    exacts[k].textContent = ex;
+  }
+
+  // 三角比
+  const out = { sin: '', cos: '', tan: '' };
+  if (res) {
+    const t = rad(res.t);
+    const val = { sin: Math.sin(t), cos: Math.cos(t), tan: Math.tan(t) };
+    let exact = {};
+    if (res.A != null) exact = { sin: ratioStr(res.A, res.C), cos: ratioStr(res.B, res.C), tan: ratioStr(res.A, res.B) };
+    else for (const s of [30, 45, 60]) if (Math.abs(res.t - s) < 1e-9) exact = SPECIAL[s];
+    const parts = { sin: ['a', 'c'], cos: ['b', 'c'], tan: ['a', 'b'] };
+    for (const fn of ['sin', 'cos', 'tan']) {
+      const [n, d] = parts[fn];
+      let h = '';
+      if (res.a != null) h += fracHTML(n, fmt(res[n]), d, fmt(res[d])) + '<span class="op">=</span>';
+      const approx = isInt(val[fn]) ? fmt(val[fn]) : val[fn].toFixed(4);
+      const same = res.a != null && exact[fn] === `${fmt(res[n])}/${fmt(res[d])}`;
+      if (exact[fn] && exact[fn] !== approx && !same) h += `<span class="ex">${exact[fn]}</span><span class="op">=</span>`;
+      h += `<span class="dec">${approx}</span>`;
+      out[fn] = h;
+    }
+    document.getElementById('o-deg').textContent = fmt(res.t, 2) + '°';
+    document.getElementById('o-rad').textContent = rad(res.t).toFixed(4) + ' rad';
+    document.getElementById('o-other').textContent = fmt(90 - res.t, 2) + '°';
+    document.getElementById('o-area').textContent = res.a != null ? fmt(res.a * res.b / 2) : '—（辺が1つ必要）';
+  } else {
+    for (const id of ['o-deg', 'o-rad', 'o-other', 'o-area']) document.getElementById(id).textContent = '—';
+  }
+  for (const fn of ['sin', 'cos', 'tan']) {
+    document.getElementById('eq-' + fn).innerHTML = out[fn] || '<span class="op">—</span>';
+  }
+
+  markFormulas(res && res.a != null ? g : []);
+  draw(res ? res.t : 36.87, !res);
+}
+
+function draw(tDeg, ghost) {
+  const W = fig.clientWidth || 640;
+  vb = W < 560 ? { w: 520, h: 430 } : { w: 640, h: 400 };
+  const L = 130, R = 130, T = 50, Bm = 90;
+  const availW = vb.w - L - R, availH = vb.h - T - Bm;
+  const td = Math.min(80, Math.max(10, tDeg));
+  const co = Math.cos(rad(td)), si = Math.sin(rad(td));
+  const s = Math.min(availW / co, availH / si);
+  const bw = s * co, bh = s * si;
+  const x0 = L + (availW - bw) / 2;
+  const y0 = vb.h - Bm - (availH - bh) / 2;
+  const Bv = [x0, y0], Cv = [x0 + bw, y0], Av = [x0 + bw, y0 - bh];
+
+  let grid = '';
+  for (let x = 0; x <= vb.w; x += 20) grid += `<line class="grid-line" x1="${x}" y1="0" x2="${x}" y2="${vb.h}"/>`;
+  for (let y = 0; y <= vb.h; y += 20) grid += `<line class="grid-line" x1="0" y1="${y}" x2="${vb.w}" y2="${y}"/>`;
+
+  const r = Math.min(40, bw * 0.55, bh * 1.2);
+  const ex = Bv[0] + r * co, ey = Bv[1] - r * si;
+  const lr = r + 16, lx = Bv[0] + lr * Math.cos(rad(td / 2)), ly = Bv[1] - lr * Math.sin(rad(td / 2)) + 6;
+  const m = 15;
+
+  svg.setAttribute('viewBox', `0 0 ${vb.w} ${vb.h}`);
+  svg.innerHTML = `${grid}
+    <g class="${ghost ? 'ghost' : ''}">
+      <polygon class="tri" points="${Bv} ${Cv} ${Av}"/>
+      <path class="mark" d="M${Cv[0] - m},${Cv[1]} L${Cv[0] - m},${Cv[1] - m} L${Cv[0]},${Cv[1] - m}"/>
+      <path class="arc" d="M${Bv[0] + r},${Bv[1]} A${r},${r} 0 0 0 ${ex},${ey}"/>
+      <text class="arc-label" x="${lx}" y="${ly}" text-anchor="middle">θ</text>
+      <line class="side side-b" x1="${Bv[0]}" y1="${Bv[1]}" x2="${Cv[0]}" y2="${Cv[1]}"/>
+      <line class="side side-a" x1="${Cv[0]}" y1="${Cv[1]}" x2="${Av[0]}" y2="${Av[1]}"/>
+      <line class="side side-c" x1="${Bv[0]}" y1="${Bv[1]}" x2="${Av[0]}" y2="${Av[1]}"/>
+    </g>`;
+
+  const len = Math.hypot(bw, bh);
+  const mid = [(Bv[0] + Av[0]) / 2, (Bv[1] + Av[1]) / 2];
+  positions = {
+    b: [(Bv[0] + Cv[0]) / 2, y0 + 48],
+    a: [Cv[0] + 72, (Av[1] + Cv[1]) / 2],
+    c: [mid[0] - bh / len * 58, mid[1] - bw / len * 58],
+    t: [Bv[0] - 70, y0],
+  };
+  place();
+}
+
+function place() {
+  const W = fig.clientWidth, H = W * vb.h / vb.w;
+  const sc = W / vb.w;
+  for (const k of KEYS) {
+    const el = fields[k], w = el.offsetWidth, h = el.offsetHeight;
+    const [ux, uy] = positions[k] || [0, 0];
+    const x = Math.min(W - w / 2 - 2, Math.max(w / 2 + 2, ux * sc));
+    const y = Math.min(H - h / 2, Math.max(h / 2, uy * sc));
+    el.style.left = (x - w / 2) + 'px';
+    el.style.top = (y - h / 2) + 'px';
+  }
+}
+
+for (const k of KEYS) {
+  inputs[k].addEventListener('input', () => {
+    order = order.filter(x => x !== k);
+    if (inputs[k].value.trim() !== '') order.push(k);
+    // 3つ目を入れたら、いちばん古い入力は計算側に回す
+    const valid = order.filter(x => { const p = parseVal(inputs[x].value); return p && !p.bad; });
+    if (valid.length > 2) order = order.filter(x => x !== valid[0]);
+    render();
+  });
+  inputs[k].addEventListener('blur', render);
+}
+
+document.querySelectorAll('.presets button').forEach(btn => btn.addEventListener('click', () => {
+  const p = JSON.parse(btn.dataset.p);
+  order = [];
+  for (const k of KEYS) inputs[k].value = '';
+  for (const k of Object.keys(p)) { inputs[k].value = p[k]; order.push(k); }
+  render();
+}));
+
+document.querySelectorAll('.card').forEach(card => {
+  const on = () => fig.dataset.hl = card.dataset.fn, off = () => delete fig.dataset.hl;
+  card.addEventListener('mouseenter', on); card.addEventListener('mouseleave', off);
+  card.addEventListener('focus', on); card.addEventListener('blur', off);
+});
+
+let lastW = 0;
+new ResizeObserver(() => { const w = fig.clientWidth; if (w !== lastW) { lastW = w; render(); } }).observe(fig);
+fig.style.minHeight = '0';
+
+render();
+</script>
+<section class="seo">
+<h2>製造現場での使いどころ</h2>
+<p>図面の寸法から、加工に必要な長さや角度を出すときの多くは直角三角形の計算です。三角比メーカーは、図の枠にわかっている値を2つ入れるだけで、残りの辺と角度を出します。関数電卓で sin や tan を選び直す必要はありません。</p>
+<div class="tbl"><table>
+<tr><th>場面</th><th>入れる値</th><th>出てくる値</th></tr>
+<tr><td>面取り C1 の斜面の長さ</td><td>高さ 1・底辺 1</td><td>斜辺 √2 ≒ 1.414、角度 45°</td></tr>
+<tr><td>テーパーの角度（直径 20→16、長さ 30）</td><td>高さ 2（半径の差）・底辺 30</td><td>角度 ≒ 3.81°（片側）</td></tr>
+<tr><td>勾配 10° で 50 mm 進んだときの段差</td><td>底辺 50・角度 10</td><td>高さ ≒ 8.816</td></tr>
+<tr><td>垂直から 30° 傾いた穴が板厚 20 を抜ける長さ</td><td>高さ 20・角度 60（板面からの角度）</td><td>斜辺 ≒ 23.09</td></tr>
+</table></div>
+<h2>使い方</h2>
+<ol>
+<li>直角三角形の図の中の枠に、わかっている辺の長さか角度を2つ入れます。</li>
+<li>残りの辺と角度、sin・cos・tan の値がすぐに出ます。整数や √ で入れると、√ や分数の形の答えも出ます。</li>
+<li>別の組み合わせで計算したいときは、入れ直すだけで最後に入れた2つから計算し直します。</li>
+</ol>
+<h2>よくある質問</h2><dl><dt>どの値を入れればいいですか？</dt><dd>高さ・底辺・斜辺・角度のうち、わかっている値を2つ入れてください。最後に入れた2つから残りを計算します。</dd><dt>面取り C1 の斜めの長さは？</dt><dd>高さと底辺に 1 を入れると、斜辺が √2（約 1.414）と出ます。C0.5 なら 0.5 と 0.5 で約 0.707 です。</dd><dt>角度は度（°）で入れますか？</dt><dd>度で入れてください。30°・45°・60° は √ を使った正確な値も表示します。</dd><dt>勉強にも使えますか？</dt><dd>使えます。中学・高校の三角比の確かめにも使えるよう、どの辺÷どの辺かを色で示しています。</dd></dl>
+<p class="more">ほかの道具：<a href="./">ポンチ絵工房（製造業向けのポンチ絵・図面）</a> ／ <a href="dentaku.html">高機能電卓</a> ／ <a href="sankakuhi.html">三角比メーカー</a></p>
+</section>
+</body>
+</html>
